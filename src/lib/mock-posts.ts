@@ -16,18 +16,18 @@ const taskSeeds: Record<TaskKey, string> = {
 
 const taskTitles: Record<TaskKey, string[]> = {
   listing: [
-    "Urban Coffee Studio",
-    "Growth Labs Agency",
-    "Northside Fitness",
-    "PixelCraft Design",
-    "Prime Auto Care",
+    "Kingsway Industrial Welding",
+    "Harborline Bookkeeping & Tax",
+    "Northbridge Dental Studio",
+    "Cedar & Co. Brand Studio",
+    "Paramount Fleet Maintenance",
   ],
   classified: [
-    "Used MacBook Pro 16",
-    "Studio Space for Rent",
-    "Hiring Frontend Developer",
-    "Weekend Photography Gig",
-    "City Center Apartment",
+    "CNC operator — 2nd shift (union)",
+    "Short-term cold storage, port district",
+    "Surplus office fixtures — lot sale",
+    "Wedding week photographer hold",
+    "1BR sublet, downtown flex dates",
   ],
   article: [
     "Scaling Local SEO in 2026",
@@ -101,8 +101,8 @@ const taskCategories: Record<TaskKey, string[]> = {
 };
 
 const summaryByTask: Record<TaskKey, string> = {
-  listing: "Verified business listing with trusted details.",
-  classified: "Fresh deal posted by a verified seller.",
+  listing: "Licensed operator with public hours, service area, and direct contact on file.",
+  classified: "Time-stamped post with a fast path to follow up in your area.",
   article: "Long-form insight from industry experts.",
   image: "Curated visual story and gallery.",
   profile: "Featured creator profile and highlights.",

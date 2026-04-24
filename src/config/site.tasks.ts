@@ -9,11 +9,11 @@ export const siteTaskDefinitions = [
   },
   {
     key: 'classified',
-    label: 'Classifieds',
+    label: 'Deals & notices',
     route: '/classifieds',
-    description: 'Local offers, jobs, and deals.',
+    description: 'Local offers, roles, and short-term listings.',
     contentType: 'classified',
-    enabled: false,
+    enabled: true,
   },
   {
     key: 'article',

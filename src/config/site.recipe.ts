@@ -8,8 +8,8 @@ export const SITE_RECIPE: SiteRecipe = {
   footerTemplate: 'columns-footer',
   motionPack: 'minimal',
   primaryTask: 'listing',
-  enabledTasks: ['listing'],
-  taskTemplates: { listing: 'listing-directory' },
+  enabledTasks: ['listing', 'classified'],
+  taskTemplates: { listing: 'listing-directory', classified: 'classified-market' },
   manualOverrides: {
     navbar: false,
     footer: false,

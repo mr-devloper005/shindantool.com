@@ -115,47 +115,82 @@ export function TaskPostCard({
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
 
   if (isDirectorySurface) {
-    const cardTone = recipe.brandPack === 'market-utility'
-      ? {
-          frame: 'rounded-[1.75rem] border border-[#d7deca] bg-white shadow-[0_18px_44px_rgba(64,76,34,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(64,76,34,0.14)]',
-          badge: 'bg-[#1f2617] text-[#edf5dc]',
-          muted: 'text-[#5b664c]',
-          title: 'text-[#1f2617]',
-          cta: 'text-[#1f2617]',
-        }
-      : {
-          frame: 'rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]',
-          badge: 'bg-slate-950 text-white',
-          muted: 'text-slate-600',
-          title: 'text-slate-950',
-          cta: 'text-slate-950',
-        }
+    const cardTone = {
+      frame:
+        'rounded-2xl border border-[#E8CDD6] bg-white shadow-[0_16px_40px_rgba(58,5,25,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-[#A53860]/35 hover:shadow-[0_22px_50px_rgba(103,13,47,0.1)]',
+      badge: 'bg-[#3A0519] text-[#FEF7F8]',
+      tag: 'text-[#A53860]',
+      muted: 'text-[#6B3D4F]',
+      title: 'text-[#3A0519]',
+      cta: 'text-[#A53860] group-hover:text-[#670D2F]',
+    }
 
     return (
-      <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${cardTone.frame}`}>
-        <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
-          <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-            <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${cardTone.badge}`}>
-              <Tag className="h-3.5 w-3.5" />
+      <Link
+        href={href}
+        className={`group flex h-full min-h-0 flex-col overflow-hidden sm:flex-row ${cardTone.frame}`}
+      >
+        <div className="order-1 flex min-w-0 flex-1 flex-col p-5 sm:order-1 sm:py-6 sm:pl-6 sm:pr-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${cardTone.badge}`}
+            >
+              <Tag className="h-3 w-3" />
               {category}
             </span>
-            <span className="rounded-full bg-white/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-900">
-              {variant === 'classified' ? 'Open now' : 'Verified'}
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B3D4F]">
+              {variant === 'classified' ? 'Notice' : 'Verified'}
             </span>
           </div>
+          <h3
+            className={`mt-3 line-clamp-2 text-lg font-medium leading-snug sm:text-xl ${cardTone.title}`}
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {post.title}
+          </h3>
+          <p className={`mt-2 line-clamp-3 text-sm leading-relaxed ${cardTone.muted}`}>
+            {getExcerpt(content.description || post.summary) || 'Details on file for this business.'}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+            {content.location ? (
+              <span className={`inline-flex items-center gap-1.5 font-medium ${cardTone.muted}`}>
+                <MapPin className="h-3.5 w-3.5 text-[#A53860]" />
+                {content.location}
+              </span>
+            ) : null}
+            {content.email ? (
+              <span className={`inline-flex min-w-0 max-w-full items-center gap-1.5 truncate ${cardTone.muted}`}>
+                <Mail className="h-3.5 w-3.5 shrink-0 text-[#A53860]" />
+                {content.email}
+              </span>
+            ) : null}
+          </div>
+          <div
+            className={`mt-5 flex items-center justify-between text-sm font-semibold sm:mt-auto sm:pt-4 ${cardTone.cta}`}
+          >
+            <span>{variant === 'classified' ? 'View notice' : 'View listing'}</span>
+            <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </div>
         </div>
-        <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className={`line-clamp-2 text-xl font-semibold leading-snug ${cardTone.title}`}>{post.title}</h3>
-            <ArrowUpRight className={`h-5 w-5 shrink-0 ${cardTone.muted}`} />
-          </div>
-          <p className={`mt-3 line-clamp-3 text-sm leading-7 ${cardTone.muted}`}>{getExcerpt(content.description || post.summary) || 'Explore this local listing.'}</p>
-          <div className="mt-5 flex flex-wrap gap-3 text-xs">
-            {content.location ? <span className={`inline-flex items-center gap-1 ${cardTone.muted}`}><MapPin className="h-3.5 w-3.5" />{content.location}</span> : null}
-            {content.email ? <span className={`inline-flex items-center gap-1 ${cardTone.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</span> : null}
-          </div>
-          <div className={`mt-auto pt-5 text-sm font-semibold ${cardTone.cta}`}>{variant === 'classified' ? 'View offer' : 'View details'}</div>
+        <div className="relative order-2 h-44 w-full flex-shrink-0 border-t border-[#EDD6DE] sm:h-auto sm:w-44 sm:border-t-0 sm:border-l sm:border-[#EDD6DE]">
+          <ContentImage
+            src={image}
+            alt={altText}
+            fill
+            sizes="(max-width:640px) 100vw, 176px"
+            quality={70}
+            className="object-cover opacity-95"
+            intrinsicWidth={640}
+            intrinsicHeight={480}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'linear-gradient(90deg, rgba(253,245,246,0.95) 0%, transparent 35%)',
+            }}
+            aria-hidden
+          />
         </div>
       </Link>
     )

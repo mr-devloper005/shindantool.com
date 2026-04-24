@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import { Fjalla_One, Manrope } from 'next/font/google'
 
 import './globals.css'
 
@@ -9,6 +10,19 @@ import { AuthProvider } from '@/lib/auth-context'
 import { buildSiteMetadata } from '@/lib/seo'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+})
+
+const fjalla = Fjalla_One({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-fjalla',
+  display: 'swap',
+})
+
 export async function generateMetadata(): Promise<Metadata> {
   return buildSiteMetadata()
 }
@@ -17,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const { recipe, brandPack } = getFactoryState()
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${manrope.variable} ${fjalla.variable}`} suppressHydrationWarning>
       <body
         data-site-shell={recipe.homeLayout}
         data-motion-pack={recipe.motionPack}
