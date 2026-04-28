@@ -25,18 +25,26 @@ const taskIcons: Record<TaskKey, any> = {
 }
 
 const variantShells = {
-  'listing-directory': 'bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.08),transparent_24%),linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)]',
-  'listing-showcase': 'bg-[linear-gradient(180deg,#ffffff_0%,#f4f9ff_100%)]',
-  'article-editorial': 'bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.08),transparent_20%),linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]',
-  'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f7f1ea_100%)]',
+  'listing-directory':
+    'bg-[radial-gradient(ellipse_100%_80%_at_0%_0%,rgba(239,136,173,0.1),transparent_50%),linear-gradient(180deg,#fffbfc_0%,#fdf5f6_100%)]',
+  'listing-showcase':
+    'bg-[radial-gradient(circle_at_100%_0%,rgba(103,13,47,0.06),transparent_42%),linear-gradient(180deg,#ffffff_0%,#f9f0f2_100%)]',
+  'article-editorial':
+    'bg-[radial-gradient(ellipse_80%_50%_at_0%_0%,rgba(165,56,96,0.07),transparent_50%),linear-gradient(180deg,#fffefd_0%,#faf4f0_100%)]',
+  'article-journal':
+    'bg-[repeating-linear-gradient(0deg,transparent,transparent_24px,rgba(58,5,25,0.04)_24px,rgba(58,5,25,0.04)_25px),linear-gradient(180deg,#fffcfa_0%,#f2ebe8_100%)]',
   'image-masonry': 'bg-[linear-gradient(180deg,#09101d_0%,#111c2f_100%)] text-white',
   'image-portfolio': 'bg-[linear-gradient(180deg,#07111f_0%,#13203a_100%)] text-white',
   'profile-creator': 'bg-[linear-gradient(180deg,#0a1120_0%,#101c34_100%)] text-white',
-  'profile-business': 'bg-[linear-gradient(180deg,#f6fbff_0%,#ffffff_100%)]',
-  'classified-bulletin': 'bg-[linear-gradient(180deg,#edf3e4_0%,#ffffff_100%)]',
-  'classified-market': 'bg-[linear-gradient(180deg,#f4f6ef_0%,#ffffff_100%)]',
-  'sbm-curation': 'bg-[linear-gradient(180deg,#fff7ee_0%,#ffffff_100%)]',
-  'sbm-library': 'bg-[linear-gradient(180deg,#f7f8fc_0%,#ffffff_100%)]',
+  'profile-business':
+    'bg-[linear-gradient(180deg,#fff8f5_0%,#f5eef0_100%)]',
+  'classified-bulletin':
+    'bg-[repeating-linear-gradient(90deg,transparent,transparent_16px,rgba(165,56,96,0.04)_16px,rgba(165,56,96,0.04)_17px),linear-gradient(180deg,#fffafd_0%,#fdf2f4_100%)]',
+  'classified-market':
+    'bg-[linear-gradient(180deg,rgba(254,250,252,1)_0%,#f8e8ed_100%)]',
+  'sbm-curation': 'bg-[linear-gradient(135deg,#f8f1f2_0%,#ffffff_45%,#f3f6f8_100%)]',
+  'sbm-library':
+    'bg-[linear-gradient(180deg,#f4f0f1_0%,#ffffff_50%,#eef1f4_100%)]',
 } as const
 
 export async function TaskListPage({ task, category }: { task: TaskKey; category?: string }) {
@@ -61,6 +69,8 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   const Icon = taskIcons[task] || LayoutGrid
 
   const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
+  const isDirectoryList =
+    !isDark && (task === 'listing' || task === 'classified')
   const ui = isDark
     ? {
         muted: 'text-slate-300',
@@ -77,13 +87,21 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
           button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
         }
-      : {
-          muted: 'text-slate-600',
-          panel: 'border border-slate-200 bg-white',
-          soft: 'border border-slate-200 bg-slate-50',
-          input: 'border border-slate-200 bg-white text-slate-950',
-          button: 'bg-slate-950 text-white hover:bg-slate-800',
-        }
+      : isDirectoryList
+        ? {
+            muted: 'text-[#6B3D4F]',
+            panel: 'border border-[#E8CDD6] bg-white shadow-[0_20px_50px_rgba(58,5,25,0.06)]',
+            soft: 'border border-[#E8CDD6] bg-[#FFF5F7]',
+            input: 'border border-[#E8CDD6] bg-white text-[#3A0519]',
+            button: 'bg-[#A53860] text-white hover:bg-[#8E2D52]',
+          }
+        : {
+            muted: 'text-slate-600',
+            panel: 'border border-slate-200 bg-white',
+            soft: 'border border-slate-200 bg-slate-50',
+            input: 'border border-slate-200 bg-white text-slate-950',
+            button: 'bg-slate-950 text-white hover:bg-slate-800',
+          }
 
   return (
     <div className={`min-h-screen ${shellClass}`}>
@@ -122,26 +140,51 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
 
         {layoutKey === 'listing-directory' || layoutKey === 'listing-showcase' ? (
           <section className="mb-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-            <div className={`rounded-[2rem] p-7 shadow-[0_24px_70px_rgba(15,23,42,0.07)] ${ui.panel}`}>
-              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] opacity-70"><Icon className="h-4 w-4" /> {taskConfig?.label || task}</div>
-              <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] text-foreground">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-4 max-w-2xl text-sm leading-7 ${ui.muted}`}>Built with a cleaner scan rhythm, stronger metadata grouping, and a structure designed for business discovery rather than editorial reading.</p>
+            <div className={`rounded-[2rem] p-7 sm:p-8 ${ui.panel}`}>
+              <div className={`flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>
+                <Icon className="h-4 w-4" /> {taskConfig?.label || task}
+              </div>
+              <h1
+                className="mt-4 text-4xl text-foreground sm:text-5xl"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                {taskConfig?.description || 'Latest posts'}
+              </h1>
+              <p className={`mt-4 max-w-2xl text-sm leading-7 ${ui.muted}`}>
+                Scan columns for category, address, and contact intent before the gallery. This view keeps business fields aligned so teams can compare at a glance.
+              </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href={taskConfig?.route || '#'} className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.button}`}>Explore results <ArrowRight className="h-4 w-4" /></Link>
-                <Link href="/search" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.soft}`}>Open search</Link>
+                <Link href={taskConfig?.route || '#'} className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.button}`}>
+                  Refresh results
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/search" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${ui.soft}`}>
+                  Open search
+                </Link>
               </div>
             </div>
-            <form className={`grid gap-3 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] ${ui.soft}`} action={taskConfig?.route || '#'}>
+            <form
+              className={`grid gap-3 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(58,5,25,0.04)] ${ui.soft}`}
+              action={taskConfig?.route || '#'}
+            >
               <div>
                 <label className={`text-xs uppercase tracking-[0.2em] ${ui.muted}`}>Category</label>
-                <select name="category" defaultValue={normalizedCategory} className={`mt-2 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}>
+                <select
+                  name="category"
+                  defaultValue={normalizedCategory}
+                  className={`mt-2 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}
+                >
                   <option value="all">All categories</option>
                   {CATEGORY_OPTIONS.map((item) => (
-                    <option key={item.slug} value={item.slug}>{item.name}</option>
+                    <option key={item.slug} value={item.slug}>
+                      {item.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              <button type="submit" className={`h-11 rounded-xl text-sm font-medium ${ui.button}`}>Apply filters</button>
+              <button type="submit" className={`h-11 rounded-xl text-sm font-medium ${ui.button}`}>
+                Apply filters
+              </button>
             </form>
           </section>
         ) : null}
@@ -201,14 +244,22 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
 
         {layoutKey === 'classified-bulletin' || layoutKey === 'classified-market' ? (
           <section className="mb-12 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className={`rounded-[1.8rem] p-6 ${ui.panel}`}>
+            <div className={`rounded-2xl p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Fast-moving notices, offers, and responses in a compact board format.</h1>
+              <h1
+                className="mt-3 text-3xl text-foreground sm:text-4xl"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                {taskConfig?.description || 'Deals and notices'}
+              </h1>
+              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>
+                A notice board: priority is the headline, price, and how to respond — not a lifestyle photo.
+              </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {['Quick to scan', 'Shorter response path', 'Clearer urgency cues'].map((item) => (
-                <div key={item} className={`rounded-[1.5rem] p-5 ${ui.soft}`}>
-                  <p className="text-sm font-semibold">{item}</p>
+              {['Skim by category', 'Faster follow-up', 'Urgency in the title row'].map((item) => (
+                <div key={item} className={`rounded-2xl p-5 ${ui.soft}`}>
+                  <p className="text-sm font-semibold text-[#3A0519]">{item}</p>
                 </div>
               ))}
             </div>
