@@ -117,80 +117,79 @@ export function TaskPostCard({
   if (isDirectorySurface) {
     const cardTone = {
       frame:
-        'rounded-2xl border border-[#E8CDD6] bg-white shadow-[0_16px_40px_rgba(58,5,25,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-[#A53860]/35 hover:shadow-[0_22px_50px_rgba(103,13,47,0.1)]',
-      badge: 'bg-[#3A0519] text-[#FEF7F8]',
+        'group relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl border border-[#E8CDD6] bg-white shadow-[0_8px_30px_rgba(58,5,25,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#A53860]/50 hover:shadow-[0_20px_60px_rgba(103,13,47,0.15)] sm:flex-row',
+      imageContainer: 'relative order-1 h-48 w-full flex-shrink-0 overflow-hidden sm:order-2 sm:h-auto sm:w-56 sm:border-l sm:border-[#EDD6DE]',
+      content: 'order-2 flex min-w-0 flex-1 flex-col p-5 sm:order-1 sm:py-6 sm:pl-6 sm:pr-5',
+      badge: 'inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3A0519] to-[#670D2F] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white shadow-sm',
+      badgeSecondary: 'rounded-full bg-[#FFF5F7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#A53860] border border-[#E8CDD6]',
       tag: 'text-[#A53860]',
       muted: 'text-[#6B3D4F]',
       title: 'text-[#3A0519]',
-      cta: 'text-[#A53860] group-hover:text-[#670D2F]',
+      cta: 'inline-flex items-center gap-2 rounded-full bg-[#FFF5F7] px-4 py-2 text-sm font-semibold text-[#A53860] transition-all duration-300 group-hover:bg-[#A53860] group-hover:text-white',
+      iconContainer: 'flex h-9 w-9 items-center justify-center rounded-full bg-[#FFF5F7] text-[#A53860] transition-all duration-300 group-hover:bg-[#A53860] group-hover:text-white',
     }
 
     return (
-      <Link
-        href={href}
-        className={`group flex h-full min-h-0 flex-col overflow-hidden sm:flex-row ${cardTone.frame}`}
-      >
-        <div className="order-1 flex min-w-0 flex-1 flex-col p-5 sm:order-1 sm:py-6 sm:pl-6 sm:pr-4">
+      <Link href={href} className={cardTone.frame}>
+        <div className={cardTone.imageContainer}>
+          <ContentImage
+            src={image}
+            alt={altText}
+            fill
+            sizes="(max-width:640px) 100vw, 224px"
+            quality={75}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            intrinsicWidth={640}
+            intrinsicHeight={480}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#A53860] shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#A53860] group-hover:text-white">
+            <ArrowUpRight className="h-5 w-5" />
+          </div>
+        </div>
+        
+        <div className={cardTone.content}>
           <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${cardTone.badge}`}
-            >
+            <span className={cardTone.badge}>
               <Tag className="h-3 w-3" />
               {category}
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6B3D4F]">
+            <span className={cardTone.badgeSecondary}>
               {variant === 'classified' ? 'Notice' : 'Verified'}
             </span>
           </div>
+          
           <h3
-            className={`mt-3 line-clamp-2 text-lg font-medium leading-snug sm:text-xl ${cardTone.title}`}
+            className={`mt-4 line-clamp-2 text-xl font-semibold leading-tight sm:text-2xl ${cardTone.title}`}
             style={{ fontFamily: 'var(--font-display)' }}
           >
             {post.title}
           </h3>
-          <p className={`mt-2 line-clamp-3 text-sm leading-relaxed ${cardTone.muted}`}>
-            {getExcerpt(content.description || post.summary) || 'Details on file for this business.'}
+          
+          <p className={`mt-3 line-clamp-2 text-sm leading-relaxed ${cardTone.muted}`}>
+            {getExcerpt(content.description || post.summary, 120) || 'Details on file for this business.'}
           </p>
-          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+          
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-xs">
             {content.location ? (
-              <span className={`inline-flex items-center gap-1.5 font-medium ${cardTone.muted}`}>
+              <span className={`inline-flex items-center gap-1.5 rounded-full bg-[#FFF5F7] px-3 py-1.5 font-medium ${cardTone.muted}`}>
                 <MapPin className="h-3.5 w-3.5 text-[#A53860]" />
                 {content.location}
               </span>
             ) : null}
             {content.email ? (
-              <span className={`inline-flex min-w-0 max-w-full items-center gap-1.5 truncate ${cardTone.muted}`}>
+              <span className={`inline-flex min-w-0 max-w-[200px] items-center gap-1.5 truncate rounded-full bg-[#FFF5F7] px-3 py-1.5 ${cardTone.muted}`}>
                 <Mail className="h-3.5 w-3.5 shrink-0 text-[#A53860]" />
                 {content.email}
               </span>
             ) : null}
           </div>
-          <div
-            className={`mt-5 flex items-center justify-between text-sm font-semibold sm:mt-auto sm:pt-4 ${cardTone.cta}`}
-          >
-            <span>{variant === 'classified' ? 'View notice' : 'View listing'}</span>
-            <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          
+          <div className="mt-auto pt-5">
+            <span className={cardTone.cta}>
+              {variant === 'classified' ? 'View notice' : 'View listing'}
+            </span>
           </div>
-        </div>
-        <div className="relative order-2 h-44 w-full flex-shrink-0 border-t border-[#EDD6DE] sm:h-auto sm:w-44 sm:border-t-0 sm:border-l sm:border-[#EDD6DE]">
-          <ContentImage
-            src={image}
-            alt={altText}
-            fill
-            sizes="(max-width:640px) 100vw, 176px"
-            quality={70}
-            className="object-cover opacity-95"
-            intrinsicWidth={640}
-            intrinsicHeight={480}
-          />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(90deg, rgba(253,245,246,0.95) 0%, transparent 35%)',
-            }}
-            aria-hidden
-          />
         </div>
       </Link>
     )
