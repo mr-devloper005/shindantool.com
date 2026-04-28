@@ -41,10 +41,10 @@ const getContent = (post: any): PostContent => {
 const getImageUrls = (post: any, content: PostContent) => {
   const media = Array.isArray(post.media) ? post.media : [];
   const mediaImages = media
-    .map((item) => item?.url)
-    .filter((url): url is string => isValidImageUrl(url));
+    .map((item: any) => item?.url)
+    .filter((url: any): url is string => isValidImageUrl(url));
   const contentImages = Array.isArray(content.images)
-    ? content.images.filter((url): url is string => isValidImageUrl(url))
+    ? content.images.filter((url: any): url is string => isValidImageUrl(url))
     : [];
   const merged = [...mediaImages, ...contentImages];
   if (merged.length) return merged;
@@ -111,14 +111,16 @@ export default function LocalPostDetailPage() {
     return (
       <div className="min-h-screen bg-background">
         <NavbarShell />
-        <main className="mx-auto max-w-3xl px-4 py-20 text-center">
-          <h1 className="text-2xl font-semibold text-foreground">Post not found</h1>
-          <p className="mt-2 text-muted-foreground">
-            This local post isn’t available on this device.
-          </p>
-          <Button className="mt-6" asChild>
-            <Link href="/">Back home</Link>
-          </Button>
+        <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl py-20 text-center">
+            <h1 className="text-2xl font-semibold text-foreground">Post not found</h1>
+            <p className="mt-2 text-muted-foreground">
+              This local post isn’t available on this device.
+            </p>
+            <Button className="mt-6" asChild>
+              <Link href="/">Back home</Link>
+            </Button>
+          </div>
         </main>
         <Footer />
       </div>
