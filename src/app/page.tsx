@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Building2, ChevronRight, Compass, FileText, Image as ImageIcon, LayoutGrid, MapPin, Search, ShieldCheck, Tag, User } from 'lucide-react'
+import { ArrowRight, Bookmark, Building2, ChevronRight, Compass, FileText, Image as ImageIcon, LayoutGrid, MapPin, Search, ShieldCheck, Tag, User, MessageSquare, File, Users } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -32,17 +33,32 @@ export async function generateMetadata(): Promise<Metadata> {
 type EnabledTask = (typeof SITE_CONFIG.tasks)[number]
 type TaskFeedItem = { task: EnabledTask; posts: SitePost[] }
 
-const taskIcons: Record<TaskKey, any> = {
+const taskIcons: Record<TaskKey, LucideIcon> = {
   article: FileText,
   listing: Building2,
   sbm: Bookmark,
   classified: Tag,
   image: ImageIcon,
   profile: User,
+  social: MessageSquare,
+  comment: MessageSquare,
+  pdf: File,
+  org: Users,
 }
 
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
-  if (value === 'listing' || value === 'classified' || value === 'article' || value === 'image' || value === 'profile' || value === 'sbm') return value
+  if (
+    value === 'listing' ||
+    value === 'classified' ||
+    value === 'article' ||
+    value === 'image' ||
+    value === 'profile' ||
+    value === 'sbm' ||
+    value === 'social' ||
+    value === 'comment' ||
+    value === 'pdf' ||
+    value === 'org'
+  ) return value
   return fallback
 }
 

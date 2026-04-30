@@ -384,7 +384,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
                 <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                   {content.highlights.map((item) => (
-                    <li key={item}>• {item}</li>
+                    <li key={item}>• {item.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()}</li>
                   ))}
                 </ul>
               </div>

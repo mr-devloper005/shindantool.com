@@ -1,5 +1,8 @@
+import type { TaskKey } from "./site-config";
+
 export type SitePost = {
   id: string;
+  task?: TaskKey;
   title: string;
   slug: string;
   summary?: string | null;

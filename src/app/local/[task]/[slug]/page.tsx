@@ -248,7 +248,7 @@ export default function LocalPostDetailPage() {
                   <h2 className="text-base font-semibold text-foreground">Highlights</h2>
                   <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                     {content.highlights.map((item) => (
-                      <li key={item}>• {item}</li>
+                      <li key={item}>• {item.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()}</li>
                     ))}
                   </ul>
                 </div>
