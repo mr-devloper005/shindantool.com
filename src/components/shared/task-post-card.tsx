@@ -1,3 +1,6 @@
+ 'use client'
+
+import { useState } from 'react'
 import { ContentImage } from '@/components/shared/content-image'
 import Link from 'next/link'
 import { ArrowUpRight, ExternalLink, FileText, Mail, MapPin, Tag } from 'lucide-react'
@@ -7,6 +10,7 @@ import type { TaskKey } from '@/lib/site-config'
 import { SITE_THEME } from '@/config/site.theme'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { TASK_POST_CARD_OVERRIDE_ENABLED, TaskPostCardOverride } from '@/overrides/task-post-card'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 
 type ListingContent = {
   location?: string
@@ -113,6 +117,13 @@ export function TaskPostCard({
   const { recipe } = getFactoryState()
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false)
+
+  const openImageModal = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setIsImageModalOpen(true)
+  }
 
   if (isDirectorySurface) {
     const cardTone = {
@@ -130,8 +141,15 @@ export function TaskPostCard({
     }
 
     return (
+      <>
       <Link href={href} className={cardTone.frame}>
         <div className={cardTone.imageContainer}>
+          <button
+            type="button"
+            aria-label={`Open image preview for ${post.title}`}
+            onClick={openImageModal}
+            className="absolute inset-0 z-10 cursor-zoom-in"
+          />
           <ContentImage
             src={image}
             alt={altText}
@@ -143,7 +161,7 @@ export function TaskPostCard({
             intrinsicHeight={480}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#A53860] shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#A53860] group-hover:text-white">
+          <div className="pointer-events-none absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#A53860] shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#A53860] group-hover:text-white">
             <ArrowUpRight className="h-5 w-5" />
           </div>
         </div>
@@ -192,6 +210,21 @@ export function TaskPostCard({
           </div>
         </div>
       </Link>
+      <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+        <DialogContent className="max-w-5xl border-0 bg-transparent p-0 shadow-none" showCloseButton>
+          <DialogTitle className="sr-only">{post.title} image preview</DialogTitle>
+          <div className="relative max-h-[85vh] w-full overflow-hidden rounded-xl bg-black/90">
+            <ContentImage
+              src={image}
+              alt={altText}
+              width={1400}
+              height={900}
+              className="h-auto max-h-[85vh] w-full object-contain"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+      </>
     )
   }
 
@@ -218,15 +251,22 @@ export function TaskPostCard({
   }
 
   return (
+    <>
     <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${visualVariant.frame}`}>
       <div className={`relative ${imageAspect} overflow-hidden bg-[#ede2dc]`}>
+        <button
+          type="button"
+          aria-label={`Open image preview for ${post.title}`}
+          onClick={openImageModal}
+          className="absolute inset-0 z-10 cursor-zoom-in"
+        />
         <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80" />
-        <span className={`absolute left-4 top-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${visualVariant.badge}`}>
+        <span className={`pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${visualVariant.badge}`}>
           <Tag className="h-3.5 w-3.5" />
           {category}
         </span>
-        {variant === 'pdf' && <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/88 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-950 shadow"><FileText className="h-3.5 w-3.5" />PDF</span>}
+        {variant === 'pdf' && <span className="pointer-events-none absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/88 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-950 shadow"><FileText className="h-3.5 w-3.5" />PDF</span>}
       </div>
       <div className={`flex flex-1 flex-col p-5 ${compact ? 'py-4' : ''}`}>
         <h3 className={`line-clamp-2 font-semibold leading-snug ${variant === 'article' ? 'text-[1.35rem]' : 'text-lg'} ${visualVariant.title}`}>{post.title}</h3>
@@ -237,5 +277,20 @@ export function TaskPostCard({
         </div>
       </div>
     </Link>
+    <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+      <DialogContent className="max-w-5xl border-0 bg-transparent p-0 shadow-none" showCloseButton>
+        <DialogTitle className="sr-only">{post.title} image preview</DialogTitle>
+        <div className="relative max-h-[85vh] w-full overflow-hidden rounded-xl bg-black/90">
+          <ContentImage
+            src={image}
+            alt={altText}
+            width={1400}
+            height={900}
+            className="h-auto max-h-[85vh] w-full object-contain"
+          />
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   )
 }

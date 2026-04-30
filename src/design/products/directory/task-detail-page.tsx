@@ -3,6 +3,7 @@ import { ArrowRight, Globe, Mail, MapPin, Phone, ShieldCheck, Tag } from 'lucide
 import { ContentImage } from '@/components/shared/content-image'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
+import { RichContent, formatRichHtml } from '@/components/shared/rich-content'
 import type { SitePost } from '@/lib/site-connector'
 import type { TaskKey } from '@/lib/site-config'
 
@@ -33,6 +34,7 @@ export function DirectoryTaskDetailPage({
   const phone = typeof content.phone === 'string' ? content.phone : ''
   const email = typeof content.email === 'string' ? content.email : ''
   const highlights = Array.isArray(content.highlights) ? content.highlights.filter((item): item is string => typeof item === 'string') : []
+  const stripHtml = (value: string) => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()
   const schemaPayload = {
     '@context': 'https://schema.org',
     '@type': task === 'profile' ? 'Organization' : 'LocalBusiness',
@@ -131,7 +133,7 @@ export function DirectoryTaskDetailPage({
               >
                 Service detail & scope
               </h2>
-              <p className="mt-4 text-sm leading-8 text-[#6B3D4F]">{description}</p>
+              <RichContent html={formatRichHtml(description, "Details coming soon.")} className="mt-4 text-sm leading-8 text-[#6B3D4F]" />
               {highlights.length ? (
                 <div className="mt-6 grid gap-2 sm:grid-cols-2">
                   {highlights.slice(0, 4).map((item) => (
@@ -139,7 +141,7 @@ export function DirectoryTaskDetailPage({
                       key={item}
                       className="rounded-2xl border border-[#E8CDD6] bg-[#FFF5F7] px-4 py-3 text-sm text-[#3A0519]"
                     >
-                      {item}
+                      {stripHtml(item)}
                     </div>
                   ))}
                 </div>
