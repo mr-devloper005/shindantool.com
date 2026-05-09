@@ -1,6 +1,6 @@
 'use client'
 
-import type { Article, Bookmark, ClassifiedAd, Listing } from '@/types'
+import type { Article, Bookmark, Listing } from '@/types'
 import { loadFromStorage, saveToStorage, storageKeys } from '@/lib/local-storage'
 
 export function loadStoredArticles(): Article[] {
@@ -19,13 +19,6 @@ export function saveStoredListings(listings: Listing[]) {
   saveToStorage(storageKeys.listings, listings)
 }
 
-export function loadStoredAds(): ClassifiedAd[] {
-  return loadFromStorage<ClassifiedAd[]>(storageKeys.ads, [])
-}
-
-export function saveStoredAds(ads: ClassifiedAd[]) {
-  saveToStorage(storageKeys.ads, ads)
-}
 
 export function loadStoredBookmarks(): Bookmark[] {
   return loadFromStorage<Bookmark[]>(storageKeys.bookmarks, [])
