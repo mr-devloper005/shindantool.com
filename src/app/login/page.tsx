@@ -11,51 +11,15 @@ import { LOGIN_PAGE_OVERRIDE_ENABLED, LoginPageOverride } from '@/overrides/logi
 import { useAuth } from '@/lib/auth-context'
 
 function getLoginConfig(kind: ReturnType<typeof getProductKind>) {
-  if (kind === 'directory') {
-    return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
-      icon: Building2,
-      title: 'Access your business dashboard',
-      body: 'Manage listings, verification details, contact info, and local discovery surfaces from one place.',
-    }
-  }
-  if (kind === 'editorial') {
-    return {
-      shell: 'bg-[#fbf6ee] text-[#241711]',
-      panel: 'border border-[#dcc8b7] bg-[#fffdfa]',
-      side: 'border border-[#e6d6c8] bg-[#fff4e8]',
-      muted: 'text-[#6e5547]',
-      action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
-      icon: FileText,
-      title: 'Sign in to your publication workspace',
-      body: 'Draft, review, and publish long-form work with the calmer reading system intact.',
-    }
-  }
-  if (kind === 'visual') {
-    return {
-      shell: 'bg-[#07101f] text-white',
-      panel: 'border border-white/10 bg-white/6',
-      side: 'border border-white/10 bg-white/5',
-      muted: 'text-slate-300',
-      action: 'bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
-      icon: ImageIcon,
-      title: 'Enter the creator workspace',
-      body: 'Open your visual feed, creator profile, and publishing tools without dropping into a generic admin shell.',
-    }
-  }
   return {
-    shell: 'bg-[#f7f1ea] text-[#261811]',
-    panel: 'border border-[#ddcdbd] bg-[#fffaf4]',
-    side: 'border border-[#e8dbce] bg-[#f3e8db]',
-    muted: 'text-[#71574a]',
-    action: 'bg-[#5b2b3b] text-[#fff0f5] hover:bg-[#74364b]',
-    icon: Bookmark,
-    title: 'Open your curated collections',
-    body: 'Manage saved resources, collection notes, and curator identity from a calmer workspace.',
+    shell: 'bg-[#f8fbff] text-[#3A0519]',
+    panel: 'border border-[#E8CDD6] bg-white shadow-[0_20px_60px_rgba(58,5,25,0.08)]',
+    side: 'border border-[#E8CDD6] bg-[#FDF5F6]',
+    muted: 'text-[#6B3D4F]',
+    action: 'bg-[#A53860] text-white hover:bg-[#8E2D52]',
+    icon: Building2,
+    title: 'Access your Shindantool dashboard',
+    body: 'Manage your business listings, verify your profile, and connect with customers in the Shindantool directory.',
   }
 }
 
@@ -91,14 +55,14 @@ export default function LoginPage() {
             <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em]">{config.title}</h1>
             <p className={`mt-5 text-sm leading-8 ${config.muted}`}>{config.body}</p>
             <div className="mt-8 grid gap-4">
-              {['Cleaner product-specific workflows', 'Palette and layout matched to the site family', 'Fewer repeated admin patterns'].map((item) => (
-                <div key={item} className="rounded-[1.5rem] border border-current/10 px-4 py-4 text-sm">{item}</div>
+              {['Manage business listings and profiles', 'Track views and engagement metrics', 'Update contact information and hours'].map((item) => (
+                <div key={item} className="rounded-[1.5rem] border border-[#E8CDD6] px-4 py-4 text-sm text-[#6B3D4F]">{item}</div>
               ))}
             </div>
           </div>
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Welcome back</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#A53860]">Welcome back</p>
             <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
               <input name="email" className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" required />
               <input name="password" className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" required />

@@ -37,7 +37,6 @@ const taskIcons: Record<TaskKey, LucideIcon> = {
   article: FileText,
   listing: Building2,
   sbm: Bookmark,
-  classified: Tag,
   image: ImageIcon,
   profile: User,
   social: MessageSquare,
@@ -49,7 +48,6 @@ const taskIcons: Record<TaskKey, LucideIcon> = {
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
   if (
     value === 'listing' ||
-    value === 'classified' ||
     value === 'article' ||
     value === 'image' ||
     value === 'profile' ||
@@ -145,22 +143,21 @@ function getCurationTone() {
   }
 }
 
-function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPosts, profilePosts }: {
+function DirectoryHome({ primaryTask, enabledTasks, listingPosts, profilePosts }: {
   primaryTask?: EnabledTask
   enabledTasks: EnabledTask[]
   listingPosts: SitePost[]
-  classifiedPosts: SitePost[]
   profilePosts: SitePost[]
 }) {
   const tone = getDirectoryTone()
   const { recipe } = getFactoryState()
-  const featuredListings = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 3)
-  const featuredTaskKey: TaskKey = listingPosts.length ? 'listing' : 'classified'
+  const featuredListings = listingPosts.slice(0, 3)
+  const featuredTaskKey: TaskKey = 'listing'
   const secondaryTask = enabledTasks.find((task) => task.key !== recipe.primaryTask)
   const accentTasks = [primaryTask, secondaryTask].filter(
     (task): task is EnabledTask => Boolean(task),
   )
-  const feedPosts = (profilePosts.length ? profilePosts : classifiedPosts).slice(0, 4)
+  const feedPosts = profilePosts.slice(0, 4)
   const tickerItems = [
     'Manufacturing',
     'Clinics',
@@ -173,7 +170,7 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   ]
 
   return (
-    <main>
+    <main suppressHydrationWarning>
       <section className={tone.hero}>
         <div aria-hidden className={tone.heroAurora} />
         <div aria-hidden className={tone.heroMist} />
@@ -339,7 +336,7 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
                 const meta = getPostMeta(post)
                 const taskKey = resolveTaskKey(
                   post.task,
-                  profilePosts.length ? 'profile' : 'classified',
+                  'profile',
                 )
                 return (
                   <li key={post.id}>
@@ -616,8 +613,7 @@ export default async function HomePage() {
   const primaryTask = enabledTasks.find((task) => task.key === recipe.primaryTask) || enabledTasks[0]
   const supportTasks = enabledTasks.filter((task) => task.key !== primaryTask?.key)
   const listingPosts = taskFeed.find(({ task }) => task.key === 'listing')?.posts || []
-  const classifiedPosts = taskFeed.find(({ task }) => task.key === 'classified')?.posts || []
-  const articlePosts = taskFeed.find(({ task }) => task.key === 'article')?.posts || []
+    const articlePosts = taskFeed.find(({ task }) => task.key === 'article')?.posts || []
   const imagePosts = taskFeed.find(({ task }) => task.key === 'image')?.posts || []
   const profilePosts = taskFeed.find(({ task }) => task.key === 'profile')?.posts || []
   const bookmarkPosts = taskFeed.find(({ task }) => task.key === 'sbm')?.posts || []
@@ -649,13 +645,7 @@ export default async function HomePage() {
       <NavbarShell />
       <SchemaJsonLd data={schemaData} />
       {productKind === 'directory' ? (
-        <DirectoryHome
-          primaryTask={primaryTask}
-          enabledTasks={enabledTasks}
-          listingPosts={listingPosts}
-          classifiedPosts={classifiedPosts}
-          profilePosts={profilePosts}
-        />
+        <DirectoryHome primaryTask={primaryTask} enabledTasks={enabledTasks} listingPosts={listingPosts} profilePosts={profilePosts} />
       ) : null}
       {productKind === 'editorial' ? (
         <EditorialHome primaryTask={primaryTask} articlePosts={articlePosts} supportTasks={supportTasks} />

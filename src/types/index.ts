@@ -70,28 +70,6 @@ export interface BusinessHours {
   isClosed: boolean
 }
 
-// Classified Ad Types
-export interface ClassifiedAd {
-  id: string
-  title: string
-  slug: string
-  description: string
-  images: string[]
-  category: string
-  subcategory?: string
-  price: number
-  currency: string
-  condition: 'new' | 'like-new' | 'good' | 'fair' | 'poor'
-  location: string
-  seller: User
-  createdAt: string
-  expiresAt?: string
-  views: number
-  saves: number
-  isFeatured: boolean
-  isNegotiable: boolean
-  status: 'active' | 'sold' | 'pending' | 'expired'
-}
 
 // Comment Types
 export interface Comment {
@@ -149,7 +127,6 @@ export interface Notification {
 export interface DashboardStats {
   totalArticles: number
   totalListings: number
-  totalAds: number
   totalViews: number
   totalLikes: number
   savedItems: number

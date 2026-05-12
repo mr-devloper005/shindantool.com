@@ -1,4 +1,4 @@
-import type { User, Article, Listing, ClassifiedAd, Comment, Bookmark, BookmarkCollection, Notification, Category, Testimonial, DashboardStats, TeamMember, CommunityEvent, CommunityGroup, PressAsset, ApiEndpoint, FAQItem, BlogPost, PressCoverage } from '@/types'
+import type { User, Article, Listing, Comment, Bookmark, BookmarkCollection, Notification, Category, Testimonial, DashboardStats, TeamMember, CommunityEvent, CommunityGroup, PressAsset, ApiEndpoint, FAQItem, BlogPost, PressCoverage } from '@/types'
 
 // Mock Users
 export const mockUsers: User[] = []
@@ -216,142 +216,6 @@ export const mockListings: Listing[] = [
   }
 ]
 
-// Mock Classified Ads
-export const mockClassifiedAds: ClassifiedAd[] = [
-  {
-    id: '1',
-    title: 'MacBook Pro 16" M3 Max - Like New',
-    slug: 'macbook-pro-16-m3-max',
-    description: 'Selling my MacBook Pro 16" with M3 Max chip. Only 6 months old, in perfect condition. Comes with original box, charger, and AppleCare+ until 2027. 64GB RAM, 1TB SSD. Great for video editing and development.',
-    images: [
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&h=600&fit=crop'
-    ],
-    category: 'Electronics',
-    subcategory: 'Computers',
-    price: 2800,
-    currency: 'USD',
-    condition: 'like-new',
-    location: 'San Francisco, CA',
-    seller: mockUsers[1],
-    createdAt: '2026-03-12',
-    views: 456,
-    saves: 34,
-    isFeatured: true,
-    isNegotiable: true,
-    status: 'active'
-  },
-  {
-    id: '2',
-    title: 'Vintage Mid-Century Modern Sofa',
-    slug: 'vintage-mid-century-sofa',
-    description: 'Beautiful authentic 1960s Danish modern sofa in excellent condition. Original teak frame with new upholstery in emerald green velvet. A true statement piece.',
-    images: [
-      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop'
-    ],
-    category: 'Home & Garden',
-    subcategory: 'Furniture',
-    price: 1500,
-    currency: 'USD',
-    condition: 'good',
-    location: 'Los Angeles, CA',
-    seller: mockUsers[0],
-    createdAt: '2026-03-10',
-    views: 234,
-    saves: 28,
-    isFeatured: true,
-    isNegotiable: true,
-    status: 'active'
-  },
-  {
-    id: '3',
-    title: '2023 Trek Domane SL5 Road Bike',
-    slug: 'trek-domane-sl5-road-bike',
-    description: 'High-performance road bike, size 56cm. Carbon frame, Shimano 105 groupset. Perfect for long rides and racing. Less than 500 miles ridden.',
-    images: [
-      'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&h=600&fit=crop'
-    ],
-    category: 'Sports & Outdoors',
-    subcategory: 'Cycling',
-    price: 2200,
-    currency: 'USD',
-    condition: 'like-new',
-    location: 'Austin, TX',
-    seller: mockUsers[2],
-    createdAt: '2026-03-08',
-    views: 189,
-    saves: 15,
-    isFeatured: false,
-    isNegotiable: false,
-    status: 'active'
-  },
-  {
-    id: '4',
-    title: 'Sony A7IV Camera Body + 24-70mm Lens',
-    slug: 'sony-a7iv-camera-kit',
-    description: 'Professional mirrorless camera kit. Includes Sony A7IV body and Sony 24-70mm f/2.8 GM lens. Shutter count under 5000. Perfect for photography and videography.',
-    images: [
-      'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&h=600&fit=crop'
-    ],
-    category: 'Electronics',
-    subcategory: 'Cameras',
-    price: 3200,
-    currency: 'USD',
-    condition: 'good',
-    location: 'New York, NY',
-    seller: mockUsers[3],
-    createdAt: '2026-03-05',
-    views: 312,
-    saves: 41,
-    isFeatured: true,
-    isNegotiable: true,
-    status: 'active'
-  },
-  {
-    id: '5',
-    title: 'Herman Miller Aeron Chair - Size B',
-    slug: 'herman-miller-aeron-chair',
-    description: 'Ergonomic office chair in graphite. Fully loaded with all adjustments. Size B fits most people. Original purchase from authorized dealer.',
-    images: [
-      'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=800&h=600&fit=crop'
-    ],
-    category: 'Home & Garden',
-    subcategory: 'Furniture',
-    price: 850,
-    currency: 'USD',
-    condition: 'good',
-    location: 'Seattle, WA',
-    seller: mockUsers[4],
-    createdAt: '2026-03-01',
-    views: 178,
-    saves: 22,
-    isFeatured: false,
-    isNegotiable: true,
-    status: 'active'
-  },
-  {
-    id: '6',
-    title: 'Apartment Available - 2BR Downtown',
-    slug: 'apartment-2br-downtown',
-    description: 'Spacious 2-bedroom apartment in the heart of downtown. Modern kitchen, in-unit laundry, gym access. Available April 1st. $2,500/month.',
-    images: [
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop'
-    ],
-    category: 'Real Estate',
-    subcategory: 'Rentals',
-    price: 2500,
-    currency: 'USD',
-    condition: 'new',
-    location: 'Chicago, IL',
-    seller: mockUsers[0],
-    createdAt: '2026-02-28',
-    views: 567,
-    saves: 89,
-    isFeatured: true,
-    isNegotiable: false,
-    status: 'active'
-  }
-]
 
 // Mock Comments
 export const mockComments: Comment[] = [
@@ -744,7 +608,6 @@ export const mockTestimonials: Testimonial[] = [
 export const mockDashboardStats: DashboardStats = {
   totalArticles: 12,
   totalListings: 5,
-  totalAds: 8,
   totalViews: 45600,
   totalLikes: 3200,
   savedItems: 24

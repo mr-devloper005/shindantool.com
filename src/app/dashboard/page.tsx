@@ -39,7 +39,7 @@ import { NavbarShell } from "@/components/shared/navbar-shell"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { loadFromStorage, storageKeys } from "@/lib/local-storage"
-import type { Article, Listing, ClassifiedAd } from "@/types"
+import type { Article, Listing } from "@/types"
 import {
   Area,
   AreaChart,
@@ -99,12 +99,10 @@ export default function DashboardPage() {
   const { toast } = useToast()
   const [storedArticles, setStoredArticles] = useState<Article[]>([])
   const [storedListings, setStoredListings] = useState<Listing[]>([])
-  const [storedAds, setStoredAds] = useState<ClassifiedAd[]>([])
 
   const loadDashboardData = () => {
     setStoredArticles(loadFromStorage<Article[]>(storageKeys.articles, []))
     setStoredListings(loadFromStorage<Listing[]>(storageKeys.listings, []))
-    setStoredAds(loadFromStorage<ClassifiedAd[]>(storageKeys.ads, []))
   }
 
   useEffect(() => {
@@ -137,17 +135,12 @@ export default function DashboardPage() {
     () => (user ? storedListings.filter((listing) => listing.owner.id === user.id) : []),
     [storedListings, user]
   )
-  const userAds = useMemo(
-    () => (user ? storedAds.filter((ad) => ad.seller.id === user.id) : []),
-    [storedAds, user]
-  )
 
   const totalViews = useMemo(
     () =>
       userArticles.reduce((sum, article) => sum + (article.views || 0), 0) +
-      userListings.reduce((sum, listing) => sum + (listing.views || 0), 0) +
-      userAds.reduce((sum, ad) => sum + (ad.views || 0), 0),
-    [userAds, userArticles, userListings]
+      userListings.reduce((sum, listing) => sum + (listing.views || 0), 0),
+    [userArticles, userListings]
   )
   const totalLikes = useMemo(
     () => userArticles.reduce((sum, article) => sum + (article.likes || 0), 0),
@@ -233,19 +226,6 @@ export default function DashboardPage() {
         views: listing.views ?? 0,
         inquiries: 0,
         date: new Date(listing.createdAt).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
-      })),
-      ads: userAds.map((ad) => ({
-        id: ad.id,
-        title: ad.title,
-        status: ad.status,
-        views: ad.views ?? 0,
-        messages: 0,
-        price: `$${ad.price.toLocaleString()}`,
-        date: new Date(ad.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
           year: "numeric",
@@ -579,76 +559,7 @@ export default function DashboardPage() {
                   </Button>
                 </TabsContent>
 
-                <TabsContent value="ads" className="p-6 pt-4">
-                  <div className="space-y-4">
-                    {myContent.ads.map((ad) => (
-                      <div
-                        key={ad.id}
-                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-foreground truncate">
-                            {ad.title}
-                          </h3>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                            <span className="font-medium text-foreground">
-                              {ad.price}
-                            </span>
-                            <span>{ad.views} views</span>
-                            <span>{ad.messages} messages</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3 ml-4">
-                          <Badge
-                            variant={
-                              ad.status === "active"
-                                ? "default"
-                                : ad.status === "sold"
-                                ? "secondary"
-                                : "outline"
-                            }
-                          >
-                            {ad.status}
-                          </Badge>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/ads/${ad.id}/edit`}>
-                                  <Edit className="h-4 w-4 mr-2" />
-                                  Edit
-                                </Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/ads/${ad.id}`}>
-                                  <ExternalLink className="h-4 w-4 mr-2" />
-                                  View
-                                </Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                <Link href={`/dashboard/ads/${ad.id}/edit`}>
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Delete
-                                </Link>
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <Button variant="outline" className="w-full mt-4" asChild>
-                    <Link href="/dashboard/ads">
-                      View all ads
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Link>
-                  </Button>
-                </TabsContent>
-              </Tabs>
+                              </Tabs>
             </motion.div>
           </div>
 

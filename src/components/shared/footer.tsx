@@ -9,7 +9,6 @@ const taskIcons: Record<TaskKey, any> = {
   article: FileText,
   listing: Building2,
   sbm: LayoutGrid,
-  classified: Tag,
   image: ImageIcon,
   profile: User,
   social: LayoutGrid,
@@ -31,7 +30,6 @@ const footerLinks = {
   ],
   resources: [
     { name: 'Help Center', href: '/help' },
-    { name: 'Developers', href: '/developers' },
     { name: 'Status', href: '/status' },
   ],
   legal: [

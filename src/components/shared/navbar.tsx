@@ -22,7 +22,6 @@ const taskIcons: Record<TaskKey, any> = {
   article: FileText,
   listing: Building2,
   sbm: LayoutGrid,
-  classified: Tag,
   image: ImageIcon,
   profile: User,
   social: LayoutGrid,

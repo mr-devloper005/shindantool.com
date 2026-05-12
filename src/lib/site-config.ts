@@ -3,7 +3,6 @@ import { siteTaskDefinitions, siteTaskViews } from '@/config/site.tasks'
 
 export type TaskKey =
   | 'listing'
-  | 'classified'
   | 'article'
   | 'image'
   | 'profile'
