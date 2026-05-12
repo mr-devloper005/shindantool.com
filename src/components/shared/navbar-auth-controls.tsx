@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronDown, LayoutGrid, LogOut, Plus, User, FileText, Building2, Tag, Image as ImageIcon } from 'lucide-react'
+import { ChevronDown, LayoutGrid, LogOut, Plus, User, FileText, Building2, Image as ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -17,7 +18,6 @@ const taskIcons: Record<TaskKey, any> = {
   article: FileText,
   listing: Building2,
   sbm: LayoutGrid,
-  classified: Tag,
   image: ImageIcon,
   profile: User,
   social: LayoutGrid,
@@ -54,17 +54,6 @@ export function NavbarAuthControls() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={logout}
-        className="rounded-full text-[#5f4750] hover:bg-[rgba(110,26,55,0.06)] hover:text-[#8f1f3f]"
-        title="Sign Out"
-      >
-        <LogOut className="h-5 w-5" />
-        <span className="sr-only">Sign Out</span>
-      </Button>
-
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="rounded-full text-[#5f4750] hover:bg-[rgba(110,26,55,0.06)] hover:text-[#8f1f3f]">
@@ -85,6 +74,11 @@ export function NavbarAuthControls() {
               <span className="text-xs text-[#7f646b]">{user?.email}</span>
             </div>
           </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={logout} className="cursor-pointer text-[#8f1f3f] hover:bg-[rgba(110,26,55,0.06)]">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

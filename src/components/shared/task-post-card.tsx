@@ -110,13 +110,13 @@ export function TaskPostCard({
   const variant = taskKey || 'listing'
   const visualVariant = cardStyles[getVariantForTask(variant)]
   const isBookmarkVariant = variant === 'sbm' || variant === 'social'
-  const imageAspect = variant === 'image' ? 'aspect-[4/5]' : variant === 'article' ? 'aspect-[16/10]' : variant === 'pdf' ? 'aspect-[4/5]' : variant === 'classified' ? 'aspect-[16/11]' : 'aspect-[4/3]'
+  const imageAspect = variant === 'image' ? 'aspect-[4/5]' : variant === 'article' ? 'aspect-[16/10]' : variant === 'pdf' ? 'aspect-[4/5]' : 'aspect-[4/3]'
   const altText = `${post.title} ${category} ${variant === 'listing' ? 'business listing' : variant} image`
   const imageSizes = variant === 'article' ? '(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 420px' : variant === 'image' ? '(max-width: 640px) 82vw, (max-width: 1024px) 34vw, 320px' : '(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 340px'
 
   const { recipe } = getFactoryState()
-  const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
-  const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
+  const isDirectoryProduct = recipe.homeLayout === 'listing-home'
+  const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'profile')
   const [isImageModalOpen, setIsImageModalOpen] = useState(false)
 
   const openImageModal = (event: React.MouseEvent<HTMLElement>) => {
@@ -128,9 +128,9 @@ export function TaskPostCard({
   if (isDirectorySurface) {
     const cardTone = {
       frame:
-        'group relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-2xl border border-[#E8CDD6] bg-white shadow-[0_8px_30px_rgba(58,5,25,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#A53860]/50 hover:shadow-[0_20px_60px_rgba(103,13,47,0.15)] sm:flex-row',
-      imageContainer: 'relative order-1 h-48 w-full flex-shrink-0 overflow-hidden sm:order-2 sm:h-auto sm:w-56 sm:border-l sm:border-[#EDD6DE]',
-      content: 'order-2 flex min-w-0 flex-1 flex-col p-5 sm:order-1 sm:py-6 sm:pl-6 sm:pr-5',
+        'group relative flex h-full min-h-[400px] flex-col overflow-hidden rounded-2xl border border-[#E8CDD6] bg-white shadow-[0_8px_30px_rgba(58,5,25,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#A53860]/50 hover:shadow-[0_20px_60px_rgba(103,13,47,0.15)]',
+      imageContainer: 'relative order-1 h-56 w-full overflow-hidden',
+      content: 'order-2 flex min-w-0 flex-1 flex-col p-5',
       badge: 'inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3A0519] to-[#670D2F] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white shadow-sm',
       badgeSecondary: 'rounded-full bg-[#FFF5F7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#A53860] border border-[#E8CDD6]',
       tag: 'text-[#A53860]',
@@ -154,7 +154,7 @@ export function TaskPostCard({
             src={image}
             alt={altText}
             fill
-            sizes="(max-width:640px) 100vw, 224px"
+            sizes="(max-width:640px) 100vw, (max-width:1024px) 42vw, 340px"
             quality={75}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             intrinsicWidth={640}
@@ -173,7 +173,7 @@ export function TaskPostCard({
               {category}
             </span>
             <span className={cardTone.badgeSecondary}>
-              {variant === 'classified' ? 'Notice' : 'Verified'}
+              {variant === 'profile' ? 'Verified' : 'Verified'}
             </span>
           </div>
           
@@ -205,7 +205,7 @@ export function TaskPostCard({
           
           <div className="mt-auto pt-5">
             <span className={cardTone.cta}>
-              {variant === 'classified' ? 'View notice' : 'View listing'}
+              {variant === 'profile' ? 'View profile' : 'View listing'}
             </span>
           </div>
         </div>
