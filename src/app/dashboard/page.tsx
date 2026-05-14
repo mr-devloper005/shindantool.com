@@ -136,6 +136,8 @@ export default function DashboardPage() {
     [storedListings, user]
   )
 
+  const userAds = useMemo(() => [], [])
+
   const totalViews = useMemo(
     () =>
       userArticles.reduce((sum, article) => sum + (article.views || 0), 0) +
