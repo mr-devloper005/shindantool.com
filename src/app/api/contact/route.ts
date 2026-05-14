@@ -43,10 +43,7 @@ export async function POST(request: Request) {
   const message = trimString(payload.message);
 
   if (!name || !email || !message) {
-    return NextResponse.json(
-      { ok: false, message: 'Name, email, and message are required.' },
-      { status: 400 },
-    );
+    return NextResponse.json({ ok: false, message: 'Name, email, and message are required.' }, { status: 400 });
   }
 
   if (!/^\S+@\S+\.\S+$/.test(email)) {
@@ -55,10 +52,7 @@ export async function POST(request: Request) {
 
   const masterContactUrl = getMasterContactUrl();
   if (!masterContactUrl) {
-    return NextResponse.json(
-      { ok: false, message: 'Contact form is not configured for this site.' },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: false, message: 'Contact form is not configured for this site.' }, { status: 500 });
   }
 
   const sourceUrl = request.headers.get('referer') || `${FALLBACK_SITE_URL}/contact`;
@@ -90,9 +84,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, message: 'Thanks. Your message has been received.' });
   } catch (error) {
     console.error('Contact submit failed', error);
-    return NextResponse.json(
-      { ok: false, message: 'Contact service is temporarily unavailable.' },
-      { status: 502 },
-    );
+    return NextResponse.json({ ok: false, message: 'Contact service is temporarily unavailable.' }, { status: 502 });
   }
 }

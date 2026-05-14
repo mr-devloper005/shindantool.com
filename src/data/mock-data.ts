@@ -788,3 +788,6 @@ export const mockPressCoverage: PressCoverage[] = [
     date: 'Jan 2026'
   }
 ]
+
+
+export const mockClassifiedAds: ClassifiedAd[] = []

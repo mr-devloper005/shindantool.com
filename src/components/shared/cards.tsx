@@ -291,3 +291,21 @@ export function StatsCard({
     </Card>
   )
 }
+
+
+export function ClassifiedAdCard({ ad }: { ad: ClassifiedAd }) {
+  return (
+    <Card className="border-border bg-card">
+      <CardContent className="p-4">
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-foreground">{ad.title}</h3>
+          {ad.description ? <p className="text-sm text-muted-foreground">{ad.description}</p> : null}
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <span>{ad.location || 'Online'}</span>
+            <span>{ad.priceLabel || (ad.price ? `$${ad.price}` : 'Contact for price')}</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}

@@ -5,7 +5,23 @@ import { CheckCircle2, Loader2 } from 'lucide-react';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
-export function ContactLeadForm() {
+type ContactLeadFormProps = {
+  inputClassName: string;
+  textareaClassName: string;
+  buttonClassName: string;
+  labelClassName: string;
+  helperClassName?: string;
+  subjectOptions?: string[];
+};
+
+export function ContactLeadForm({
+  inputClassName,
+  textareaClassName,
+  buttonClassName,
+  labelClassName,
+  helperClassName,
+  subjectOptions = ['General Question'],
+}: ContactLeadFormProps) {
   const [status, setStatus] = useState<FormStatus>('idle');
   const [message, setMessage] = useState('');
 
@@ -39,46 +55,46 @@ export function ContactLeadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-[2rem] border border-stone-200 bg-white/90 p-6 shadow-2xl shadow-stone-200/70 backdrop-blur md:p-8">
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2 text-sm font-semibold text-stone-700">
-          Full name
-          <input name="name" required placeholder="Your name" className="h-12 rounded-2xl border border-stone-200 bg-stone-50 px-4 text-base font-medium text-stone-950 outline-none transition focus:border-stone-900 focus:bg-white" />
-        </label>
-        <label className="grid gap-2 text-sm font-semibold text-stone-700">
-          Email address
-          <input name="email" type="email" required placeholder="you@example.com" className="h-12 rounded-2xl border border-stone-200 bg-stone-50 px-4 text-base font-medium text-stone-950 outline-none transition focus:border-stone-900 focus:bg-white" />
-        </label>
+    <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
+      <div>
+        <label className={labelClassName}>Your Name</label>
+        <input name="name" required className={inputClassName} placeholder="John Doe" />
       </div>
-
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2 text-sm font-semibold text-stone-700">
-          Phone number
-          <input name="phone" placeholder="Optional" className="h-12 rounded-2xl border border-stone-200 bg-stone-50 px-4 text-base font-medium text-stone-950 outline-none transition focus:border-stone-900 focus:bg-white" />
-        </label>
-        <label className="grid gap-2 text-sm font-semibold text-stone-700">
-          Subject
-          <input name="subject" placeholder="How can we help?" className="h-12 rounded-2xl border border-stone-200 bg-stone-50 px-4 text-base font-medium text-stone-950 outline-none transition focus:border-stone-900 focus:bg-white" />
-        </label>
+      <div>
+        <label className={labelClassName}>Email Address</label>
+        <input name="email" type="email" required className={inputClassName} placeholder="john@example.com" />
       </div>
-
-      <label className="mt-4 grid gap-2 text-sm font-semibold text-stone-700">
-        Message
-        <textarea name="message" required rows={6} placeholder="Tell us what you need help with..." className="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3 text-base font-medium text-stone-950 outline-none transition focus:border-stone-900 focus:bg-white" />
-      </label>
-
+      <div>
+        <label className={labelClassName}>Phone Number</label>
+        <input name="phone" className={inputClassName} placeholder="Optional" />
+      </div>
+      <div>
+        <label className={labelClassName}>Subject</label>
+        <select name="subject" className={inputClassName} defaultValue={subjectOptions[0] || 'General Question'}>
+          {subjectOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label className={labelClassName}>Message</label>
+        <textarea name="message" required className={textareaClassName} placeholder="Tell us more about your inquiry..." />
+      </div>
       <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-
       {message ? (
-        <div className={`mt-5 flex items-start gap-3 rounded-2xl px-4 py-3 text-sm font-semibold ${status === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700'}`}>
-          {status === 'success' ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> : null}
-          <span>{message}</span>
+        <div className={`rounded-2xl px-4 py-3 text-sm font-semibold ${status === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700'}`}>
+          <div className="flex items-start gap-3">
+            {status === 'success' ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> : null}
+            <span>{message}</span>
+          </div>
         </div>
       ) : null}
-
-      <button type="submit" disabled={status === 'submitting'} className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-stone-950 px-6 text-sm font-black uppercase tracking-[0.24em] text-white shadow-lg shadow-stone-300 transition hover:-translate-y-0.5 hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-70">
+      {helperClassName ? <p className={helperClassName}>We will review your request and reply as soon as possible.</p> : null}
+      <button type="submit" disabled={status === 'submitting'} className={buttonClassName}>
         {status === 'submitting' ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        Send message
+        Send Message
       </button>
     </form>
   );

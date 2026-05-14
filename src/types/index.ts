@@ -231,3 +231,22 @@ export interface PressCoverage {
   headline: string
   date: string
 }
+
+
+export interface ClassifiedAd {
+  id: string
+  title: string
+  slug: string
+  description: string
+  image?: string
+  images?: string[]
+  category?: string
+  location?: string
+  price?: number
+  priceLabel?: string
+  contactEmail?: string
+  contactPhone?: string
+  createdAt?: string
+  isFeatured?: boolean
+  status?: 'active' | 'draft' | 'archived'
+}
